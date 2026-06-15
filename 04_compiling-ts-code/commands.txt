@@ -1,0 +1,8 @@
+1. npm i -g typescript
+2. tsc -v
+3. tsc <filename>.ts 
+4. you'll get you're <filename>.js file 
+5. tsc app.ts --noEmit : just to check or compile the code it will not produce an app.js as o/p
+6. tsc app.ts --noEmitonError : if error then dont generate .js file 
+7. type: " tsc " :  to compile all .ts files only if you've creates tsconfig.json file, if tsconfig.json not present it will give --help commands of tsc 
+8. tsc --watch: continuously compiles the file while typing

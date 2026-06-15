@@ -1,0 +1,17 @@
+primitive 
+
+String
+Number
+Boolean
+null
+undefined
+symbol
+BigInt
+
+Non primitive:
+
+Object
+array
+map
+set
+

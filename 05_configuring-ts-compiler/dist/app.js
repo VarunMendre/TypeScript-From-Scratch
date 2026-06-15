@@ -1,0 +1,11 @@
+let num;
+console.log(typeof num);
+num = "string";
+console.log(typeof num);
+num = 5;
+console.log(typeof num);
+let string = "Varun";
+console.log(string);
+let name = 'string';
+name = "5";
+export {};
