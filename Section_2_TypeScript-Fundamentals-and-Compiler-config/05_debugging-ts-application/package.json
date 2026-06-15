@@ -1,0 +1,17 @@
+{
+  "name": "04_strict-mode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@jridgewell/sourcemap-codec": "^1.5.5",
+    "source-map": "^0.7.6",
+    "typescript": "^6.0.0-dev.20260416"
+  }
+}
