@@ -1,0 +1,35 @@
+to build .ts file of 2000 Types-intersection it take this much time
+
+Files:               83
+Lines:            80434
+Identifiers:      69720
+Symbols:          85106
+Types:            50601
+Instantiations:   32819
+Memory used:    292268K
+I/O read:         0.12s
+I/O write:        0.00s
+Parse time:       0.96s
+Bind time:        0.38s
+Check time:      27.71s
+Emit time:        0.00s
+Total time:      29.05s
+
+
+but if we not used that intersections into and object then it take so much less time : 
+
+Files:               83
+Lines:            72432
+Identifiers:      61718
+Symbols:          69104
+Types:            34558
+Instantiations:   32819
+Memory used:    270473K
+I/O read:         0.08s
+I/O write:        0.00s
+Parse time:       0.75s
+Bind time:        0.29s
+Check time:       3.58s
+Emit time:        0.00s
+Total time:       4.63s
+
