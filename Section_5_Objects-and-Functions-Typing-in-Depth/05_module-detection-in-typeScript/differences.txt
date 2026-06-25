@@ -1,0 +1,23 @@
+TypeScript moduleDetection Options
+===================================
+
+The "moduleDetection" compiler option controls how TypeScript determines whether a file is a module (scoped) or a script (global scope).
+
+1. "auto" (Default)
+   - Behavior: Uses multiple heuristics to detect modules.
+     * Checks for top-level "import" or "export" statements.
+     * Checks if "package.json" has "type": "module" (when using NodeNext/Node16).
+     * Checks for JSX syntax (when using react-jsx).
+   - Best For: Modern projects that mix modules and scripts or rely on package.json configuration.
+
+2. "legacy"
+   - Behavior: Replicates TypeScript 4.6 and earlier.
+     * Treats a file as a module ONLY if it contains top-level "import" or "export" statements.
+     * Files without these are treated as global scripts.
+   - Best For: Maintaining compatibility with very old projects or avoiding breaking changes during migration.
+
+3. "force"
+   - Behavior: Treats EVERY non-declaration file as a module.
+     * Ensures all variables are scoped locally to the file.
+     * Prevents "Cannot redeclare block-scoped variable" errors caused by global scope pollution.
+   - Best For: Modern projects requiring strict module isolation; ideal for migrating large JavaScript codebases.   
