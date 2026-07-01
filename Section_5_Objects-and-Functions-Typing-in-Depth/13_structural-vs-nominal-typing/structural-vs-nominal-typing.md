@@ -196,3 +196,39 @@ https://youtu.be/j-b8zbi37v4
 https://en.wikipedia.org/wiki/Duck_test
 https://dev.to/rafaeljohn9/if-it-quacks-like-a-duck-1fl8
 
+
+
+
+
+📘 TypeScript Revision Notes: Structural Typing & Checks
+1. Structural Typing (Duck Typing)
+
+TS checks shape/structure, not names.
+Rule: If Object A has at least the properties of Type B, it is assignable.
+Extra properties are allowed when assigning variables.
+const wide = { name: "A", age: 20 };
+const narrow: { name: string } = wide; ✅ (Valid)
+2. Excess Property Checks (The "Freshness" Rule)
+
+Trigger: Only happens when assigning an Object Literal directly to a target type.
+Purpose: Catches typos in new objects.
+Behavior:
+func({ name: "A", age: 20 }) ❌ (Error: age is excess)
+const obj = { name: "A", age: 20 }; func(obj); ✅ (Valid: obj is not "fresh")
+3. The {} Type
+
+Definition: Represents any non-nullish value.
+Includes: Primitives (string, number, boolean), Objects, Arrays, Functions.
+Excludes: null and undefined.
+Note: Do not confuse {} (non-nullish) with object (non-primitive) or Record<key, never> (empty object).
+4. Quick Comparison
+
+Scenario	Code	Result	Why?
+Direct Literal	const x: Type = { a: 1, b: 2 }	❌ Error	Excess Property Check fails on b.
+Via Variable	const y = { a: 1, b: 2 }; const x: Type = y;	✅ Valid	Only structural check (has a).
+Nullish Check	const z: {} = null	❌ Error	{} excludes null/undefined.
+Primitive Check	const w: {} = "hello"	✅ Valid	Strings are non-nullish.
+
+5. Key Takeaway
+
+"TypeScript cares about what you have (structure), not what you are called (name). But be careful with fresh objects—they get inspected strictly!"
