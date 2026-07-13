@@ -1,0 +1,9 @@
+topic : TypeScript Types: The First 500 Years by Dan Vanderkam
+link : https://www.youtube.com/watch?v=uN1zuV4DGRY
+
+topic : Typescript Demystified - Stepan Sendun
+link : https://www.youtube.com/watch?v=EYGlwD2DVHY&t=1734s
+
+topic : What's New in TypeScript : Build 2018 (watch union types section only)
+link : https://www.youtube.com/watch?v=hDACN-BGvI8&t=1693s
+
