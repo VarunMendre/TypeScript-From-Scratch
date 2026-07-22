@@ -1,104 +1,6 @@
-/**
- * ==============================================================================
- * TYPESCRIPT GENERICS - PRACTICAL IMPLEMENTATIONS
- * ==============================================================================
- *
- * This file demonstrates how Generics can be used to build reusable,
- * type-safe utility functions similar to JavaScript's built-in methods.
- *
- * ------------------------------------------------------------------------------
- * CONTENTS
- * ------------------------------------------------------------------------------
- * 1. Generic Object Merge
- * 2. Generic Map Function
- * 3. Generic Filter Function
- *
- * ------------------------------------------------------------------------------
- * WHY GENERICS?
- * ------------------------------------------------------------------------------
- *
- * Imagine writing the same function multiple times:
- *
- * mergeNumberObjects()
- * mergeStringObjects()
- * mergeUserObjects()
- * mergeEmployeeObjects()
- *
- * Instead of creating separate versions for every type,
- * Generics allow us to write ONE reusable function that works
- * with ANY type while preserving complete type safety.
- *
- * Generics are represented using placeholders like:
- *
- *      <T>
- *      <U>
- *      <K>
- *
- * These placeholders are replaced by actual types
- * when the function is called.
- *
- * Example:
- *
- *      myFunc<number>()
- *      myFunc<string>()
- *      myFunc<User>()
- *
- * ============================================================================
- */
-
 /* =============================================================================
    1. GENERIC OBJECT MERGE
    ============================================================================= */
-
-/**
- * Merges two objects together.
- *
- * -----------------------------------------------------------------------------
- * Generic Parameters
- * -----------------------------------------------------------------------------
- *
- * T -> Type of first object
- * U -> Type of second object
- *
- * Return Type
- * -----------------------------------------------------------------------------
- *
- * T & U
- *
- * '&' means Intersection Type.
- *
- * The returned object contains ALL properties from
- * both T and U.
- *
- * Example:
- *
- * T = { name: string }
- *
- * U = { age: number }
- *
- * Returned Type:
- *
- * {
- *    name: string;
- *    age: number;
- * }
- *
- * -----------------------------------------------------------------------------
- * Flow
- * -----------------------------------------------------------------------------
- *
- * Step 1:
- * Receive first object
- *
- * Step 2:
- * Receive second object
- *
- * Step 3:
- * Spread both objects into a new object
- *
- * Step 4:
- * Return the merged object
- */
 
 function mergeObjects<T, U>(a: T, b: U): T & U {
   return {
@@ -135,6 +37,46 @@ Type:
 }
 */
 
+/**
+ * ==============================================================================
+ * Explanation
+ * ==============================================================================
+ *
+ * <T, U>
+ * Here we declare two Generic Type Parameters.
+ *
+ * i. T
+ *    - Represents the type of the first object.
+ *    - Parameter 'a' is of type T because it can be any object.
+ *
+ * ii. U
+ *    - Represents the type of the second object.
+ *    - Parameter 'b' is of type U because it can also be any object.
+ *
+ * Return Type -> T & U
+ *
+ * '&' (Intersection Type) combines both object types.
+ *
+ * Since we are merging object 'a' and object 'b',
+ * the returned object contains all properties of T
+ * as well as all properties of U.
+ *
+ * Example:
+ *
+ * T = { name: string }
+ * U = { age: number }
+ *
+ * Return Type:
+ *
+ * {
+ *   name: string;
+ *   age: number;
+ * }
+ *
+ * This makes mergeObjects reusable because it works with
+ * any two object types while preserving complete type safety.
+ */
+
 /* =============================================================================
    2. GENERIC MAP IMPLEMENTATION
    ============================================================================= */
@@ -161,90 +103,67 @@ console.log(doubledNumbers);
  * Explanation
  * ==============================================================================
  *
- * myFunc() is a generic implementation of JavaScript's built-in Array.map().
- * It transforms every element of an array into a new value using a callback
- * function and returns a new array containing those transformed values.
+ * <T, U>
+ * Here we define two Generic Type Parameters.
  *
- * ------------------------------------------------------------------------------
- * Understanding the Generics
- * ------------------------------------------------------------------------------
+ * i. T
+ *    - Represents the type of the input array.
+ *    - Since 'arr' is written as T[], every element inside
+ *      the array is of type T.
  *
- * T -> Represents the type of the input array elements.
- * U -> Represents the type returned by the callback function.
+ * ii. U
+ *    - Represents the type of the transformed value.
+ *    - After the callback manipulates an element of type T,
+ *      it may produce a completely different type.
+ *    - Therefore, the result array stores elements of type U,
+ *      making its type U[].
  *
- * Since the callback can return a completely different type, we use two generic
- * parameters instead of one.
+ * Function Parameters
  *
- * ------------------------------------------------------------------------------
- * Flow
- * ------------------------------------------------------------------------------
+ * arr: T[]
+ *    - Input array whose every element is of type T.
  *
- * Step 1:
- * The function receives an array of type T[] and a callback function.
+ * cb: (a: T) => U
+ *    - 'a' is of type T because it represents one element
+ *      taken from the input array T[].
+ *    - You can think of 'a' as one instance (or one element)
+ *      of the generic type T.
+ *    - The callback performs some operation on 'a'
+ *      and returns a new value of type U.
  *
- * Step 2:
- * An empty array of type U[] is created to store transformed values.
+ * Inside the Loop
  *
- * Step 3:
- * Every element of the input array is passed to the callback.
+ * for (let item of arr)
  *
- * Step 4:
- * The callback returns a value of type U.
+ *    item is automatically of type T because it comes from T[].
  *
- * Step 5:
- * That returned value is pushed into the result array.
+ * cb(item)
  *
- * Step 6:
- * After processing all elements, the transformed array is returned.
+ *    - item (T) is passed to the callback.
+ *    - The callback transforms T into U.
+ *    - The returned value is therefore of type U.
  *
- * ------------------------------------------------------------------------------
- * Example
- * ------------------------------------------------------------------------------
+ * result.push(cb(item))
  *
- * Input:
- *      [1, 2, 3, 4]
+ *    - Since cb(item) returns U,
+ *      we push it into result, which is declared as U[].
  *
- * Callback:
- *      value => value * 2
+ * Return Type
  *
- * Execution:
+ * return result;
  *
- *      1 -> 2
- *      2 -> 4
- *      3 -> 6
- *      4 -> 8
+ * Since result contains values of type U,
+ * the function returns U[].
  *
- * Output:
- *      [2, 4, 6, 8]
- *
- * ------------------------------------------------------------------------------
- * Why Two Generics?
- * ------------------------------------------------------------------------------
- *
- * Input Type (T):
- *      number
- *
- * Output Type (U):
- *      number
- *
- * But they don't have to be the same.
+ * This is exactly how JavaScript's map() works—
+ * it transforms one type into another.
  *
  * Example:
  *
- * myFunc<number, string>(
- *      [1,2,3],
- *      value => `Number: ${value}`
- * )
- *
- * Result:
- *      ["Number: 1", "Number: 2", "Number: 3"]
- *
- * Here,
- *      T = number
- *      U = string
+ * number[]  ----map---->  string[]
+ * User[]    ----map---->  UserDTO[]
+ * Product[] ----map---->  JSX.Element[]
  */
-
-
 
 /* =============================================================================
    3. GENERIC FILTER IMPLEMENTATION
@@ -274,96 +193,61 @@ console.log(filteredArray);
  * Explanation
  * ==============================================================================
  *
- * myFilter() is a generic implementation of JavaScript's built-in
- * Array.filter(). Unlike map(), filter() does not transform elements.
- * It simply decides whether an element should remain in the final array.
+ * <T>
+ * Here we declare only one Generic Type Parameter.
  *
- * ------------------------------------------------------------------------------
- * Understanding the Generic
- * ------------------------------------------------------------------------------
+ * Why only one?
  *
- * T represents the type of elements inside the array.
+ * Unlike map(), filter() does not transform one type into another.
+ * It simply decides whether an existing element should be kept
+ * or removed.
  *
- * Only one generic is required because filtering never changes the data type.
+ * Therefore, the input type and the output type remain the same.
  *
- * Input:
- *      T[]
+ * Function Parameters
  *
- * Output:
- *      T[]
+ * arr: T[]
+ *    - Input array whose every element is of type T.
  *
- * ------------------------------------------------------------------------------
- * Understanding the Callback
- * ------------------------------------------------------------------------------
+ * callbackFn: (item: T) => boolean
+ *    - 'item' is of type T because it represents one element
+ *      from the input array.
+ *    - The callback does not change the element.
+ *    - It only returns true or false.
  *
- * The callback receives one element at a time and returns a boolean.
+ *      true  -> Keep the element.
+ *      false -> Ignore the element.
  *
- * true  -> Keep the element.
- * false -> Discard the element.
+ * Inside the Loop
  *
- * ------------------------------------------------------------------------------
- * Flow
- * ------------------------------------------------------------------------------
+ * for (let item of arr)
  *
- * Step 1:
- * Receive the input array.
+ *    item is of type T.
  *
- * Step 2:
- * Create an empty array to store the filtered elements.
+ * if (callbackFn(item))
  *
- * Step 3:
- * Visit every element of the array.
+ *    The callback checks whether the element satisfies
+ *    a particular condition.
  *
- * Step 4:
- * Execute the callback.
+ * result.push(item)
  *
- * Step 5:
- * If the callback returns true, store that element.
+ *    Since the original item itself is pushed into result
+ *    (without any modification),
+ *    result also remains of type T[].
  *
- * Step 6:
- * If it returns false, ignore the element.
+ * Return Type
  *
- * Step 7:
- * Return the filtered array.
+ * return result;
  *
- * ------------------------------------------------------------------------------
- * Example
- * ------------------------------------------------------------------------------
- *
- * Input:
- *      [1,2,3,4,5,6,7,8,9,10]
- *
- * Callback:
- *      value => value % 2 === 0
- *
- * Evaluation:
- *
- *      1 -> false
- *      2 -> true
- *      3 -> false
- *      4 -> true
- *      ...
- *
- * Output:
- *
- *      [2,4,6,8,10]
- *
- * ------------------------------------------------------------------------------
- * Difference Between map() and filter()
- * ------------------------------------------------------------------------------
- *
- * map()
- * -----
- * Transforms every element into a new value.
+ * The returned array contains only selected elements,
+ * but every element is still of type T.
  *
  * Example:
- *      [1,2,3] -> [2,4,6]
  *
+ * number[] ----filter----> number[]
+ * User[]   ----filter----> User[]
+ * Product[]----filter----> Product[]
  *
- * filter()
- * --------
- * Keeps or removes elements based on a condition.
- *
- * Example:
- *      [1,2,3,4] -> [2,4]
+ * The number of elements may change,
+ * but the type of each element never changes.
  */
