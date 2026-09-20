@@ -88,3 +88,54 @@ type SubtractionUtility<
 type SubtractResult3 = SubtractionUtility<5, 4>;  // 1
 type SubtractResult4 = SubtractionUtility<4, 4>;  // 0
 type SubtractResult5 = SubtractionUtility<10, 4>; // 6
+
+
+
+// Multiplication for positive numbers in Type Level
+
+
+type Multiplication<
+    Num1 extends number,
+    Num2 extends number,
+    Result extends unknown[] = [],
+> = Num2 extends 0 ? Result["length"] : Multiplication<Num1, SubtractionUtility<Num2, 1>, [...Result, ...GenerateNumber<Num1, []>]>;
+
+
+
+type MultiplicationResult1 = Multiplication<2, 5>;
+
+
+/*
+
+I. Multiplication<3, 4, []>
+Num1 = 3
+Num2 = 4
+Result = []
+
+-> Num2 is not 0 so 
+
+II. Multiplication<3, 3, []>
+Num1 = 3
+Num2 = 3
+Result = [0, 0, 0]
+
+III. Multiplication<3, 2, [0, 0, 0]>
+Num1  = 3 
+Num2 = 2
+Result = [0, 0, 0, 0, 0, 0]
+
+-> Num2 is not 0 so 
+
+IV. Multiplication<3, 1, [0, 0, 0, 0, 0, 0]>
+Num1 = 3
+Num2 = 1
+Result = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+V. Multiplication<3, 0,  [0, 0, 0, 0, 0, 0, 0, 0, 0]>
+Num1 = 3
+Num2 = 0
+
+return 
+Result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+*/
+
