@@ -33,7 +33,7 @@ type SubtractResult2 = T5 extends [...T3, ...infer I] ? I["length"] : never;
 // Creates a tuple whose length is equal to N
 type GenerateNumber<
   N extends number,
-  Result extends unknown[],
+  Result extends unknown[] = [],
 > = Result["length"] extends N ? Result : GenerateNumber<N, [0, ...Result]>;
 
 // Generate a tuple of length 50
@@ -181,3 +181,21 @@ type DivisionResult4 = DivisionUtility<12, 1>; // 12
 
 type DivisionResult5 = DivisionUtility<0, 1>; // 0
 type DivisionResult6 = DivisionUtility<1, 0>; // 0
+
+
+// Increment Given Positive Number by 1
+
+type Increment<N extends number> = [0, ...GenerateNumber<N>]['length'];
+
+type IncrResult1 = Increment<5> // 6 
+type IncrResult2 = Increment<0> // 1
+type IncrResult3 = Increment<51> // 52
+
+
+// Decrement Given Positive Number by 1, in-case N is 0 we'll return 0 for now 
+
+type Decrement<N extends number> = N extends 0 ? 0 : SubtractionUtility<N, 1>;
+
+type DecrResult1 = Decrement<2>;
+
+
