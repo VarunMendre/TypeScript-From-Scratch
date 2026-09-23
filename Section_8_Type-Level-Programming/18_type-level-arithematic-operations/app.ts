@@ -64,6 +64,7 @@ type SubtractionUtility<Num1 extends number, Num2 extends number> =
 type SubtractResult3 = SubtractionUtility<5, 4>; // 1
 type SubtractResult4 = SubtractionUtility<4, 4>; // 0
 type SubtractResult5 = SubtractionUtility<10, 4>; // 6
+type SubtractResult6 = SubtractionUtility<10, 11>; // never 
 
 // Multiplication for positive numbers in Type Level -> 3 + 3 + 3 + 3 => 3 * 4 => 12
 
@@ -197,5 +198,55 @@ type IncrResult3 = Increment<51> // 52
 type Decrement<N extends number> = N extends 0 ? 0 : SubtractionUtility<N, 1>;
 
 type DecrResult1 = Decrement<2>;
+
+
+
+// EqualTo Utility
+
+type EqualTo<Num1 extends number, Num2 extends number> = GenerateNumber<Num1> extends GenerateNumber<Num2> ? true : false;
+
+type EqualToResult1 = EqualTo<4, 4>;
+type EqualToResult2 = EqualTo<5, 4>;
+
+
+
+
+// Greater-Than Utility : checks if Num1 is Greater than Num2
+
+type GreaterThan<Num1 extends number, Num2 extends number> = Num1 extends Num2 ? false : SubtractionUtility<Num1, Num2> extends never ? false : true
+
+type GreaterThanResult1 = GreaterThan<6, 8>;
+type GreaterThanResult2 = GreaterThan<6, 5>;
+type GreaterThanResult3 = GreaterThan<6, 6>;
+
+
+// LessThan<N1, N2> -> checks whether N1 is less than N2.
+
+type LessThan<N1 extends number, N2 extends number> = N1 extends N2 ? false : GreaterThan<N1, N2> extends true ? false : true;
+
+type LessThanResult1 = LessThan<6, 8>;
+type LessThanResult2 = LessThan<6, 5>;
+type LessThanResult3 = LessThan<6, 6>;
+
+
+
+
+// GreaterThanOrEqual<N1, N2>
+
+type GreaterThanOrEqual<N1 extends number, N2 extends number> = N1 extends N2 ? true : SubtractionUtility<N1, N2> extends never ? false : true;
+
+
+type GreaterThanOrEqualResult1 = GreaterThanOrEqual<6, 8>;
+type GreaterThanOrEqualResult2 = GreaterThanOrEqual<6, 5>;
+type GreaterThanOrEqualResult3 = GreaterThanOrEqual<6, 6>;
+
+
+// LessThanOrEqual<N1, N2>
+
+type LessThanOrEqual<N1 extends number, N2 extends number> = N1 extends N2 ? true : GreaterThan<N1, N2> extends true ? false : true;
+
+type LessThanOrEqualResult1 = LessThanOrEqual<6, 8>;
+type LessThanOrEqualResult2 = LessThanOrEqual<6, 5>;
+type LessThanOrEqualResult3 = LessThanOrEqual<6, 6>;
 
 
