@@ -78,3 +78,55 @@ type ReadonlyUser2 = MyReadonly<User3>;
  readonly isAdult: boolean;
 }
 */
+
+
+
+
+// but all of these are utilities are won't works with deep nested objects 
+
+type User4 = {
+    name: string;
+    age: number;
+    isAdult: boolean;
+    address: {
+        street: string;
+        city: string;
+        country: string;
+    };         
+}
+
+
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+}
+
+type DeepRequired<T> = {
+  [P in keyof T]-?: T[P] extends object ? DeepRequired<T[P]> : T[P];
+};
+
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
+};
+
+type DeepPartialUser = DeepPartial<User4>;
+type DeepRequiredUser = DeepRequired<User4>;
+type DeepReadonlyUser = DeepReadonly<User4>;
+
+
+
+const readonlyUser: DeepReadonlyUser = {
+    name: "John",
+  age: 30,  
+  isAdult: true,
+  address: {
+    street: "123 Main St",  
+  city: "New York",
+  country: "USA",
+  },
+};  
+
+readonlyUser.name = "Jane"; // Error: Cannot assign to 'name' because it is a read-only property.
+
+
+
